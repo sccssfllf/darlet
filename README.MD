@@ -19,7 +19,7 @@ Darlet — це навчальний компілятор та інтерпре�
 1. Клонуйте репозиторій:
 
    ```bash
-   git clone [https://github.com/sccssfllf/darlet.git](https://github.com/sccssfllf/darlet.git)
+   git clone https://github.com/sccssfllf/darlet.git
    ```
 
 2. Відкрийте проєкт у Visual Studio або VS Code.
