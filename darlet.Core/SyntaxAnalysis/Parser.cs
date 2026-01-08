@@ -173,7 +173,32 @@ namespace darlet.Core.SyntaxAnalysis
 
         public AstNode ParseExpression()
         {
-            return ParseEquality();
+            return ParseAssignment();
+        }
+
+        private AstNode ParseAssignment()
+        {
+            // Спочатку читаємо ліву частину (це може бути просто змінна 'x')
+            var expr = ParseEquality();
+
+            // Якщо після неї йде знак '=', значить це присвоєння
+            if (Current.Type == TokenType.OP_ASSIGN)
+            {
+                var equals = Consume(TokenType.OP_ASSIGN);
+
+                // Рекурсивно парсимо праву частину (дозволяє a = b = 5)
+                var value = ParseAssignment();
+
+                // Перевіряємо, чи зліва стоїть змінна (не можна написати 5 = 10)
+                if (expr is VariableNode)
+                {
+                    return new BinOpNode(expr, equals, value);
+                }
+
+                throw new CompilerException("Invalid assignment target.", equals.Line, equals.Column);
+            }
+
+            return expr;
         }
 
         // Пріоритет: ==, !=

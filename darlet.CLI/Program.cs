@@ -112,84 +112,47 @@ class Program
         //}
         #endregion
 
-        Console.Title = "Darlet Compiler CLI";
-        Console.WriteLine("Darlet Compiler [Version 1.0]");
-        Console.WriteLine("Supports: var, print, arithmetic, if/else, while");
-        Console.WriteLine("Type 'exit' to quit.");
-        Console.WriteLine("--------------------------------------------------");
+        string sourceCode = @"
+                var x = 10;
+                var y = 5;
+                
+                print(x + y);
 
-        // Створюємо семантичний аналізатор один раз, 
-        // щоб він пам'ятав змінні між введеннями рядків (якщо ми не чистимо Scope)
-        var semanticAnalyzer = new SemanticAnalyzer();
+                var i = 0;
+                while (i < 3) {
+                    print(i);
+                    i = i + 1;
+                }
+            ";
 
-        while (true)
+        try
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("\n> ");
-            string input = Console.ReadLine();
+            // 1. Лексичний аналіз
+            var lexer = new Lexer(sourceCode);
+            var tokens = lexer.Tokenize();
 
-            if (string.IsNullOrWhiteSpace(input)) continue;
-            if (input.Trim().ToLower() == "exit") break;
+            // 2. Парсинг
+            var parser = new Parser(tokens);
+            var ast = parser.ParseProgram();
 
-            try
-            {
-                // ==========================================
-                // ЕТАП 1: Лексичний аналіз (Tokenization)
-                // ==========================================
-                var lexer = new Lexer(input);
-                var tokens = lexer.Tokenize();
+            // 3. (Опціонально) Вивід дерева
+            Console.WriteLine("AST Structure:");
+            ast.PrintTree();
+            Console.WriteLine("----------------");
+            Console.WriteLine("Output:");
 
-                // (Опційно) Можна вивести токени для дебагу, але поки пропустимо
-
-                // ==========================================
-                // ЕТАП 2: Синтаксичний аналіз (Parsing)
-                // ==========================================
-                var parser = new Parser(tokens);
-                AstNode root = parser.ParseProgram();
-
-                // ==========================================
-                // ЕТАП 3: Семантичний аналіз (Semantics)
-                // ==========================================
-                // Перевіряє, чи існують змінні перед використанням
-                semanticAnalyzer.Analyze(root);
-
-                // ==========================================
-                // ЕТАП 4: Генерація ПОЛІЗ (RPN / CodeGen)
-                // ==========================================
-                var rpnGenerator = new RpnGenerator();
-
-                // Запускаємо генератор по нашому дереву
-                root.Accept(rpnGenerator);
-
-                // ==========================================
-                // ВИВІД РЕЗУЛЬТАТУ
-                // ==========================================
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Analysis: OK");
-
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.Write("RPN (POLIZ): ");
-                Console.WriteLine(rpnGenerator.GetOutput());
-
-                Console.ResetColor();
-            }
-            catch (CompilerException ex)
-            {
-                // Помилки компіляції (синтаксис або семантика)
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"[COMPILATION ERROR] {ex.Message}");
-                Console.WriteLine($"Position: Line {ex.Line}, Column {ex.Column}");
-                Console.ResetColor();
-            }
-            catch (Exception ex)
-            {
-                // Якісь системні помилки (наприклад, NullReference)
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine($"[SYSTEM ERROR] {ex.Message}");
-                Console.WriteLine(ex.StackTrace); // Щоб бачити, де впало
-                Console.ResetColor();
-            }
+            // 4. Інтерпретація
+            var interpreter = new Interpreter();
+            ast.Accept(interpreter);
         }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Error: {ex.Message}");
+            Console.ResetColor();
+        }
+
+        Console.ReadKey();
     }
 }
 
