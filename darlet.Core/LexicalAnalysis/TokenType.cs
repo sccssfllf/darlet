@@ -1,50 +1,68 @@
-﻿namespace darlet.Core.LexicalAnalysis;
-
-public enum TokenType
+﻿namespace darlet.Core.LexicalAnalysis
 {
-    // Управління
-    EOF,                // Кінець файлу (End of File)
-    UNKNOWN,            // Невідома помилка (Unknown error)
-    
-    // Ідентифікатори та літерали
-    IDENTIFIER,         // Name of variables 
-    INTEGER_LITERAL,    // Integers
-    REAL_LITERAL,       // Real numbers
-    BOOLEAN_LITERAL,    // True, False
-    STRING_LITERAL,     // "Hello World!"
+    /// <summary>
+    /// Перелік усіх можливих типів токенів, які розпізнає лексер мови Dartlet.
+    /// Використовується парсером для прийняття рішень щодо граматичної структури.
+    /// </summary>
+    public enum TokenType
+    {
+        // --- Спеціальні токени управління ---
 
-    // Ключові слова
-    KW_VAR,             // var
-    KW_IF,              // if
-    KW_ELSE,            // else
-    KW_WHILE,           // while
-    KW_PRINT,           // print
-    KW_RETURN,          // return
-    KW_INPUT,           // input
+        /// <summary>Кінець вхідного потоку даних (End Of File).</summary>
+        EOF,
+        /// <summary>Токен, який не вдалося розпізнати (лексична помилка).</summary>
+        UNKNOWN,
 
-    // Роздільники
-    LPAREN,             // (
-    RPAREN,             // )
-    LBRACE,             // {
-    RBRACE,             // }
-    SEMICOLON,          // ;
+        // --- Ідентифікатори та Літерали (Дані) ---
 
-    // Оператори
-    OP_PLUS,            // +
-    OP_MINUS,           // -
-    OP_MULTIPLY,        // *
-    OP_DIVIDE,          // /
-    OP_POWER,           // ^
+        /// <summary>Ім'я змінної (наприклад: x, count, myVar).</summary>
+        IDENTIFIER,
+        /// <summary>Ціле число (наприклад: 42).</summary>
+        INTEGER_LITERAL,
+        /// <summary>Дійсне число (наприклад: 3.14).</summary>
+        REAL_LITERAL,
+        /// <summary>Булеве значення (true, false).</summary>
+        BOOLEAN_LITERAL,
+        /// <summary>Рядок тексту в лапках (наприклад: "Hello").</summary>
+        STRING_LITERAL,
 
-    // Присвоєння
-    OP_ASSIGN,          // =
+        // --- Ключові слова (Keywords) ---
 
-    // Порівняння
-    OP_EQUAL,           // ==
-    OP_NOT_EQUAL,       // !=
-    OP_LESS,            // <
-    OP_GREATER,         // >
-    OP_LESS_EQUAL,      // <=
-    OP_GREATER_EQUAL,   // >=
+        KW_VAR,      // Оголошення змінної
+        KW_IF,       // Умовний оператор
+        KW_ELSE,     // Альтернативна гілка
+        KW_WHILE,    // Цикл
+        KW_PRINT,    // Вивід у консоль
+        KW_RETURN,   // Повернення значення (зарезервовано)
+        KW_INPUT,    // Ввід з консолі
 
+        // --- Роздільники (Delimiters) ---
+
+        LPAREN,      // (
+        RPAREN,      // )
+        LBRACE,      // {
+        RBRACE,      // }
+        SEMICOLON,   // ; (кінець інструкції)
+
+        // --- Арифметичні оператори ---
+
+        OP_PLUS,     // +
+        OP_MINUS,    // -
+        OP_MULTIPLY, // *
+        OP_DIVIDE,   // /
+        OP_POWER,    // ^ (піднесення до степеня)
+
+        // --- Оператор присвоєння ---
+
+        OP_ASSIGN,   // =
+
+        // --- Оператори порівняння (Boolean Logic) ---
+
+        OP_EQUAL,         // ==
+        OP_NOT_EQUAL,     // !=
+        OP_LESS,          // <
+        OP_GREATER,       // >
+        OP_LESS_EQUAL,    // <=
+        OP_GREATER_EQUAL  // >=
+    }
 }
