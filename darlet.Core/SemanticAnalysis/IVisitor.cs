@@ -38,5 +38,9 @@ namespace darlet.Core.SemanticAnalysis
         /// Обробка циклу WHILE.
         /// </summary>
         void Visit(WhileNode node);
+        /// <summary>
+        /// Обробка рядка String.
+        /// </summary>
+        void Visit(StringNode node);
     }
 }

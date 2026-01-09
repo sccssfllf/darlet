@@ -150,5 +150,12 @@ namespace darlet.Core.SemanticAnalysis
             node.Condition.Accept(this);
             node.Body.Accept(this);
         }
+
+        public void Visit(StringNode node)
+        {
+            // Семантичний аналізатор поки що може ігнорувати рядки,
+            // або просто сказати "Ок, це рядок".
+            // Порожнього методу достатньо, щоб зняти помилку.
+        }
     }
 }

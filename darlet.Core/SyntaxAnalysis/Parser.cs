@@ -284,23 +284,35 @@ namespace darlet.Core.SyntaxAnalysis
         // Найвищий пріоритет: Числа, Змінні, Дужки
         private AstNode ParsePrimary()
         {
+            // 1. Якщо це число
             if (Current.Type == TokenType.INTEGER_LITERAL)
             {
                 return new NumberNode(Consume(TokenType.INTEGER_LITERAL));
             }
 
+            // 2. Якщо це РЯДОК (Ось цього у вас не вистачає!)
+            if (Current.Type == TokenType.STRING_LITERAL)
+            {
+                // Створюємо StringNode (переконайтеся, що ви створили цей клас раніше)
+                return new StringNode(Consume(TokenType.STRING_LITERAL));
+            }
+
+            // 3. Якщо це змінна
             if (Current.Type == TokenType.IDENTIFIER)
             {
                 return new VariableNode(Consume(TokenType.IDENTIFIER));
             }
 
-            if (Match(TokenType.LPAREN)) // '('
+            // 4. Якщо це дужки ( )
+            if (Current.Type == TokenType.LPAREN)
             {
-                var node = ParseExpression(); // Рекурсивно парсимо вираз всередині
-                Consume(TokenType.RPAREN);    // ')'
-                return node;
+                Consume(TokenType.LPAREN);
+                var expr = ParseExpression(); // Рекурсія для виразу всередині
+                Consume(TokenType.RPAREN);
+                return expr;
             }
 
+            // Якщо нічого не підійшло — кидаємо помилку
             throw new CompilerException($"Not expected Token: {Current.Type}", Current.Line, Current.Column);
         }
     }

@@ -1,0 +1,31 @@
+var title = "Darlet Exam Demo";
+var version = 1;
+
+print("--- " + title + " v" + version + " ---");
+
+var a = 10;
+var b = 20;
+var sum = a + b;
+
+print("Calculation test:");
+print(a + " + " + b + " = " + sum);
+
+print("Logic test:");
+if (sum > 25) {
+    print("Result is big (Success)");
+} else {
+    print("Result is small (Failure)");
+}
+
+print("Loop test (Factorial of 5):");
+var number = 5;
+var fact = 1;
+var i = 1;
+
+while (i <= number) {
+    fact = fact * i;
+    i = i + 1;
+}
+
+print("Factorial of 5 is: " + fact);
+print("--- End of Demo ---");

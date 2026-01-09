@@ -139,6 +139,14 @@ namespace darlet.Core.Generating
             _output.Append($"{labelEnd}: ");
         }
 
+        public void Visit(StringNode node)
+        {
+            // RPN (Зворотній Польський Запис) просто додає рядок у вихідний буфер
+            _output.Append($"\"{node.Token.Lexeme}\"");
+        }
+
+
+
         // Допоміжний метод для генерації унікальних імен міток
         private string NewLabel() => $"m{_labelCounter++}";
     }

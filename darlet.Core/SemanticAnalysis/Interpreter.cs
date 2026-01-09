@@ -44,21 +44,41 @@ namespace darlet.Core.SemanticAnalysis
             }
 
             node.Left.Accept(this);
-            var left = Convert.ToInt32(_lastResult);
-            
+            var left = _lastResult;
+
             node.Right.Accept(this);
-            var right = Convert.ToInt32(_lastResult);
+            var right = _lastResult;
 
-            switch(node.Token.Type)
+            if (node.Token.Type == TokenType.OP_PLUS)
             {
-                case TokenType.OP_PLUS: _lastResult = left + right; break;
-                case TokenType.OP_MINUS: _lastResult = left - right; break;
-                case TokenType.OP_MULTIPLY: _lastResult = left * right; break;
-                case TokenType.OP_DIVIDE: _lastResult = left / right; break;
+                
+                if (left is string || right is string)
+                {
+                    _lastResult = left.ToString() + right.ToString();
+                }
+                else
+                {
+                    
+                    _lastResult = Convert.ToInt32(left) + Convert.ToInt32(right);
+                }
+                return; 
+            }
 
-                case TokenType.OP_GREATER: _lastResult = left > right ? 1 : 0; break;
-                case TokenType.OP_LESS: _lastResult = left < right ? 1 : 0; break;
-                case TokenType.OP_EQUAL: _lastResult = left == right ? 1 : 0; break;
+            
+            int l = Convert.ToInt32(left);
+            int r = Convert.ToInt32(right);
+
+            switch (node.Token.Type)
+            {
+                case TokenType.OP_MINUS: _lastResult = l - r; break;
+                case TokenType.OP_MULTIPLY: _lastResult = l * r; break;
+                case TokenType.OP_DIVIDE: _lastResult = l / r; break;
+                case TokenType.OP_GREATER_EQUAL: _lastResult = l >= r ? 1 : 0; break;
+                case TokenType.OP_LESS_EQUAL: _lastResult = l <= r ? 1 : 0; break;
+                case TokenType.OP_GREATER: _lastResult = l > r ? 1 : 0; break;
+                case TokenType.OP_LESS: _lastResult = l < r ? 1 : 0; break;
+                case TokenType.OP_EQUAL: _lastResult = l == r ? 1 : 0; break;
+                case TokenType.OP_NOT_EQUAL: _lastResult = l != r ? 1 : 0; break;
             }
         }
 
@@ -101,6 +121,12 @@ namespace darlet.Core.SemanticAnalysis
 
                 node.Body.Accept(this);
             }
+        }
+
+        public void Visit(StringNode node)
+        {
+            // Просто повертаємо текст рядка як результат
+            _lastResult = node.Token.Lexeme;
         }
     }
 }
