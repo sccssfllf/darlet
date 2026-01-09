@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO; // <--- Обов'язково додайте це для роботи з файлами
+﻿using darlet.Core.Generating;
 using darlet.Core.LexicalAnalysis;
 using darlet.Core.SemanticAnalysis;
 using darlet.Core.SyntaxAnalysis;
@@ -10,17 +9,23 @@ namespace darlet
     {
         static void Main(string[] args)
         {
-            string filePath = "C:\\Users\\okras\\darlet_programming_language\\darlet.CLI\\demo.darlet";
 
-            if (!File.Exists(filePath))
+            //string demo = "C:\\Users\\okras\\darlet_programming_language\\darlet.CLI\\arithmeticDemo.darlet";
+            string demo = "C:\\Users\\okras\\darlet_programming_language\\darlet.CLI\\test.darlet";
+            //string demo = "C:\\Users\\okras\\darlet_programming_language\\darlet.CLI\\ifDemo.darlet";
+            //string demo = "C:\\Users\\okras\\darlet_programming_language\\darlet.CLI\\whileDemo.darlet";
+            //string demo = "C:\\Users\\okras\\darlet_programming_language\\darlet.CLI\\demo.darlet";
+
+
+            if (!File.Exists(demo))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Error: File '{filePath}' not found.");
+                Console.WriteLine($"Error: File '{demo}' not found.");
                 Console.ResetColor();
                 return;
             }
 
-            string sourceCode = File.ReadAllText(filePath);
+            string sourceCode = File.ReadAllText(demo);
 
             try
             {
@@ -34,6 +39,27 @@ namespace darlet
                 Console.WriteLine("2. Parsing...");
                 var parser = new Parser(tokens);
                 var ast = parser.ParseProgram();
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n--- [Intermediate Representation: RPN with Jumps] ---");
+
+                try
+                {
+                    var rpnGen = new RpnGenerator();
+
+                    ast.Accept(rpnGen);
+
+                    string rpnCode = rpnGen.GetOutput();
+
+                    Console.WriteLine(rpnCode);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"RPN Generation failed: {ex.Message}");
+                }
+
+                Console.ResetColor();
+                Console.WriteLine("-----------------------------------------------------\n");
 
                 Console.WriteLine("3. Interpreting...");
                 Console.WriteLine("----------------------------------");

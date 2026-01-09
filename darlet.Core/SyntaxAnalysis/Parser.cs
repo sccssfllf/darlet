@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using darlet.Core.Errors;
 using darlet.Core.LexicalAnalysis;
 using darlet.Core.SyntaxAnalysis.AST;
@@ -290,10 +288,9 @@ namespace darlet.Core.SyntaxAnalysis
                 return new NumberNode(Consume(TokenType.INTEGER_LITERAL));
             }
 
-            // 2. якщо це –яƒќ  (ќсь цього у вас не вистачаЇ!)
+            // 2. якщо це –яƒќ 
             if (Current.Type == TokenType.STRING_LITERAL)
             {
-                // —творюЇмо StringNode (переконайтес€, що ви створили цей клас ран≥ше)
                 return new StringNode(Consume(TokenType.STRING_LITERAL));
             }
 
@@ -307,9 +304,15 @@ namespace darlet.Core.SyntaxAnalysis
             if (Current.Type == TokenType.LPAREN)
             {
                 Consume(TokenType.LPAREN);
-                var expr = ParseExpression(); // –екурс≥€ дл€ виразу всередин≥
+                var expr = ParseExpression();
                 Consume(TokenType.RPAREN);
                 return expr;
+            }
+
+            // 5. якщо це дробове число
+            if (Current.Type == TokenType.REAL_LITERAL)
+            {
+                return new NumberNode(Consume(TokenType.REAL_LITERAL));
             }
 
             // якщо н≥чого не п≥д≥йшло Ч кидаЇмо помилку

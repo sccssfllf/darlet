@@ -1,0 +1,6 @@
+var user_age = 20;
+if (user_age >= 18) {
+	print("Access granted.");
+} else {
+	print("Access Denied.");
+}

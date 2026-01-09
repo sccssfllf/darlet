@@ -125,7 +125,6 @@ namespace darlet.Core.SemanticAnalysis
 
         public void Visit(StringNode node)
         {
-            // Просто повертаємо текст рядка як результат
             _lastResult = node.Token.Lexeme;
         }
     }

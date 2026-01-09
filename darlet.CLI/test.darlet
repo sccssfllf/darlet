@@ -1,0 +1,32 @@
+print("Test Demo"); 
+
+print("Arithmetic"); 
+
+// Тест арифметичних операцій
+var x = 5 + 1;
+print("5 + 1 = " + x);
+var y = 7 - 1;
+print("7 - 1 = " + y);
+var k = 7 * 2;
+print("7 * 2 = " + k);
+var j = 14 / 2;
+print("14 / 2 = " + j);
+
+// Тест конструкції if
+if (j == 7) {
+	print("j equals 7");
+}
+
+// Тест конструкції if/else
+if (k == 7) {
+	print("k equals 7");
+} else {
+	print("k is not equals 7");
+}
+
+var counter = 1;
+while (j < 20) {
+	print(counter + ". " + j);
+	j = j + 1;
+	counter = counter + 1;
+}

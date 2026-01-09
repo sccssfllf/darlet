@@ -99,8 +99,6 @@ namespace darlet.Core.Generating
             _output.Append($"{labelEnd} ! ");
 
             // 5. Початок блоку Else (мітка)
-            // Примітка: тут у вашому коді був знак "!", можливо це друкарська помилка,
-            // зазвичай ставиться просто двокрапка. Я залишив як у оригіналі.
             _output.Append($"{labelElse}: !");
 
             if (node.ElseBody != null)

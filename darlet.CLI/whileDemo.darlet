@@ -1,0 +1,6 @@
+var i = 1;
+var number = 5;
+while (i <= number) {
+    print(i);
+    i = i + 1;
+}

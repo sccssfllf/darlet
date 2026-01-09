@@ -1,0 +1,31 @@
+// --- Advanced Interpreter Test ---
+
+// Робота з рядками
+var greeting = "Hello, ";
+var name = "Examiner";
+
+print(greeting);
+print(name);
+
+// Математика
+var x = 100;
+var y = 3;
+var res = x / y; // Цілочисельне ділення (33)
+
+print("Division 100 / 3:");
+print(res);
+
+// Вкладений IF
+if (res > 10) {
+    if (res < 50) {
+        print("Nested IF works: 10 < 33 < 50");
+    }
+}
+
+// Вирази у print();
+print(5 + 2);
+print(5 + 2 / 2);
+print(7 - 2);
+print(1 - 2);
+print(2 ^ 3);
+
